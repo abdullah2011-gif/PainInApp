@@ -7,7 +7,7 @@ export const testConn = (drop: boolean = false) => {
     host: "localhost",
     port: 5432,
     username: "postgres",
-    password: "postgres",
+    password: "abdullah",
     database: "painapptest",
     synchronize: drop,
     dropSchema: drop,

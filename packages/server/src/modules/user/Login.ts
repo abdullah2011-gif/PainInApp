@@ -11,25 +11,26 @@ export class LoginResolver {
     @Arg("email") email: string,
     @Arg("password") password: string,
     @Ctx() ctx: MyContext
-  ): Promise<User | null> {
+  ): Promise<User | null |Error> {
+    
     const user = await User.findOne({ where: { email } });
-
+    
     if (!user) {
-      return null;
+      throw new Error('user not found')
     }
 
     const valid = await bcrypt.compare(password, user.password);
 
     if (!valid) {
-      return null;
+      throw new Error('Incorrect Password')
     }
 
     if (!user.confirmed) {
-      return null;
+        throw new Error('user not confirmed')
     }
 
     ctx.req.session!.userId = user.id;
-
+    
     return user;
   }
 }
